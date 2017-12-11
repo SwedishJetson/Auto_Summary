@@ -8,7 +8,7 @@ import re
 
 #user greeting and initial arguments
 os.system('clear')
-dtg = os.system('date')
+todaysdate = time.strftime("%c")
 print 'Welcome to the CVE summary generator.\n'
 name= raw_input( "Please give this summary project a name i.e. Intel_Vuln_21NOV17.\n" )
 
@@ -52,15 +52,18 @@ for k in my_list:
 	a.close()
 	print k + ' downloaded.\n'
 
-with open('{0}_summary.txt'.format(name), "w") as f:	
-	f.write('Auto Summary for ' +name+ '.\n')
-	f.write('Proejct initiated at: '.\n')
-	for k in my_list:
-        	with open('{0}.html'.format(k), "r") as a:
-			line = a.read()
-			banner = re.findall(r'vuln-warning-banner-content', str(line))
-                	f.writelines(banner)
-        	a.close()
-        print k + ' summarized.\n'
+with open('{0}_summary.txt'.format(name), "w") as f:
+        f.write('Auto Summary for ' +name+ '.\n')
+        f.write('Proejct initiated at: ' +todaysdate+ '.\n\n')
+        for k in my_list:
+                with open('{0}.html'.format(k), "r") as a:
+                        line = a.read()
+                        description = re.findall(r'<p data-testid="vuln-description">+.*</p>+', str(line))
+                        d = description.split("\>")
+			f.write(k+'\n')
+                        f.write('\n')
+                        f.write(str(d[1])+'\n')
+                        f.write('\n')
+                a.close()
+		print (k+ ' summarized.\n')
 f.close()
-
