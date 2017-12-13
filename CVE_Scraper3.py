@@ -53,17 +53,17 @@ os.system('clear')
 #	print k + ' downloaded.\n'
 
 with open('{0}_summary.txt'.format(name), "w") as f:	
-	f.write('Auto Summary for ' +name+ '.\n')
-	f.write('Proejct initiated at: ' +todaysdate+ '.\n')
+	f.write('Auto Summary for ' +name+ '.\n\n')
+	f.write('Proejct initiated at: ' +todaysdate+ '.\n\n')
 	for k in my_list:
         	with open('{0}.html'.format(k), "r") as a:
 			line = a.read()
 			description = re.findall(r'<p data-testid="vuln-description">+.*</p>+', str(line))
-                	f.writelines(k+'\n')
-			f.writelines('\n')
-			f.writelines(str(description[0])+'\n')
-			f.writelines('\n')	
+			d = re.findall(r'[A-Za-z0-9]{1,15}\s+', str(description))
+			f.write(k+'\n\n')
+			print d
+			f.write('\n\n')
         	a.close()
-        print k + ' summarized.\n'
+        	print k + ' summarized.\n'
 f.close()
 

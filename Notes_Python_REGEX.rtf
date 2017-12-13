@@ -1,0 +1,80 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf100
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww14640\viewh12840\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Python REGEX Notes\
+\
+Resources: https://www.youtube.com/watch?v=ZdDOauFIDkw\
+\
+print (re.split (r\'92 \'92))\
+	 the r above means \'93raw\'94\
+\
+print (re.split (r\'92\\s*\'92))\
+	opens the space to define the strings to search for\
+\
+print (re.split (r\'92\\s*\'92, \'91here are some words\'92))\
+	If you ran this, you would get the following results:\
+	[\'91here\'92, \'91are\'92, \'91some\'92, \'91words\'92]\
+\
+print (re.split (r\'92(\\s*)\'92, \'91here are some words\'92))\
+	[\'91here\'92, \'91 \'91, \'91are\'92, \'91 \'92, \'91some\'92, \'91 \'91, \'91words\'92]\
+	Note that the empty spaces were included in the list. This is a result of the placement of the \\s* into a set of parentheses\
+\
+print (re.split (r\'92(s*)\'92, \'91here are some words\'92))\
+	[\'91here are\'92, \'91s\'92, \'91ome word\'92, \'92s\'92, \'91\'92]\
+\
+>>> print re.split(r'[a-f]', 'dfasfasdfgsacsvnqsdkngv')\
+['', '', '', 's', '', 's', '', 'gs', '', 'svnqs', 'kngv']\
+\
+>>> print re.split(r'\\d', 'fjsdklfdskl;324 main st.fsdfsad')\
+['fjsdklfdskl;', '', '', ' main st.fsdfsad']\
+	this \\d basically sets the pattern to operate on digits, if I use the \\D, then it will operate on everything except digits\
+\
+>>> print re.findall(r'\\d', 'fjsdklfdskl;324 main st.fsdfsad')\
+['3', '2', '4']\
+	changed the split function to the \'91findall\'92 function and then it will pull out all the digits\
+\
+Here are the quantity wildcards:\
+* = 0 or more\
++ = 1 or more\
+? = 0 or 1 of\
+\{5\} = exact number of\
+\{1,60\} = range on number of\
+\
+>>> print re.findall(r'\\d\{1,5\}', 'fjsdklfdskl;324 main st.fsdfsad')\
+['324']\
+	So, I looked for a range of 5 digits or more. This brought back the \'91324\'92 value in the string of random shit.\
+\
+\\s escapes spaces\
+\\w escapes numbers or letters\
+\
+>>> print re.findall(r'\\d\{1,5\}\\s\\w+', 'fjsdklfdskl;324 main st.fsdfsad')\
+['324 main']\
+	I used the \\s and the \\w to escape spaces, numbers, and letters. I also used the + operator because I knew there would be at least one of them in the the pattern I was looking for.\
+\
+>>> print re.findall(r'\\d\{1,5\}\\s\\w+\\s\\w+\\.', 'fjsdklfdskl;324 main st.fsdfsad')\
+['324 main st.']\
+	I added the second iteration of \\s\\w+ for the space in the pattern after \'91main\'92. Also use the \\. To escape the \'91.\'92 since it is a special character in Python. It literally means \'93anything except a newline.\'94\
+\
+print re.findall(r'[CVE]\{3\}-\\d\{1,4\}-\\d\{1,5\}\'92, \'91fspdmvksdvmksdmvndfksmkvlCVE-2017-12345vmvsdmvkcsamck\'92)\
+\
+Sun-Devil-1:Security Reading nate$ cat eff_this_shit.py\
+#!/usr/bin/python\
+import re, urllib\
+\
+sites = 'google yahoo cnn msn'.split()\
+\
+for s in sites:\
+	print ('Searching: ' + s)\
+	u = urllib.urlopen('http://' + s + '.com')\
+	text = u.read()\
+	title = re.findall(r'<title>+.*</title>+',\
+				str(text), re.I|re.M)\
+	print (title[0])\
+\
+This program reaches out for these four URLs and returns the line called <title></title>\
+\
+Multiple buffer overflows in Active Management Technology (AMT) in Intel Manageability Engine Firmware 8.x/9.x/10.x/11.0/11.5/11.6/11.7/11.10/11.20 allow attacker with local access to the system to execute arbitrary code with AMT execution privilege.</p>}
