@@ -59,11 +59,15 @@ with open('{0}_summary.txt'.format(name), "w") as f:
         	with open('{0}.html'.format(k), "r") as a:
 			line = a.read()
 			description = re.findall(r'<p data-testid="vuln-description">+.*</p>+', str(line))
-			d = re.split(r'<p data-testid="vuln-description">', str(description))
-			e = re.split(r'</p>', str(d))
-			g = re.split('^[\s\S]{0,9}', str(e))
+			d = re.split(r'^[\s\S]{0,36}', str(description))
+			e = re.split(r'[\s\S]{1,9}$', str(d))
 			f.write(k+'\n\n')
-			print (g)
+			print description
+			print '\n'
+			print d
+			print '\n' 
+			print e
+			#f.write(e+'\n')
 			f.write('\n\n')
         	a.close()
         	print k + ' summarized.\n'
