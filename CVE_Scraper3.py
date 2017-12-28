@@ -62,8 +62,12 @@ with open('{0}_summary.txt'.format(name), "w") as f:
 			d = re.split(r'<p data-testid="vuln-description">', str(description))
 			e = re.split(r'</p>', str(d))
 			g = re.split('^[\s\S]{0,9}', str(e))
+			m = re.split(',', str(g))
+			n = re.split('\"', str(m))
+			p = re.split(',', str(n[3]))
 			f.write(k+'\n\n')
-			print (g)
+			f.writelines(p[0])	
+			#print (g)
 			f.write('\n\n')
         	a.close()
         	print k + ' summarized.\n'
